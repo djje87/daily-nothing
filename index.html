@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f2f0e9">
+  <meta name="description" content="Nothing to see here. But since you're here, there's a small game.">
+  <title>Nothing to see here.</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f2f0e9;
+      --ink: #1c201c;
+      --muted: #6e746b;
+      --line: #d6d8cc;
+      --dark: #18221f;
+      --lime: #dbfb83;
+      --white: #f7f7ed;
+      font-synthesis: none;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; min-width: 320px; min-height: 100vh; font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: var(--ink); background: var(--paper); -webkit-font-smoothing: antialiased; }
+    body::before { content: ""; position: fixed; inset: 0; pointer-events: none; opacity: .34; background-image: radial-gradient(#b9bcae 0.6px, transparent 0.7px); background-size: 22px 22px; mask-image: linear-gradient(90deg, #000, transparent 72%); }
+    button { font: inherit; }
+    button:focus-visible, a:focus-visible { outline: 3px solid #759d23; outline-offset: 5px; }
+    .page { width: min(1400px, 100%); min-height: 100svh; margin: 0 auto; padding: 30px clamp(22px, 5vw, 80px) 24px; display: flex; flex-direction: column; position: relative; }
+    header, footer { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    header { padding-bottom: 23px; border-bottom: 1px solid var(--line); }
+    .brand { display: inline-flex; align-items: center; gap: 11px; font-size: 12px; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+    .brand-mark { width: 36px; height: 36px; border: 1.5px solid var(--ink); border-radius: 50%; display: grid; place-items: center; font-size: 28px; font-weight: 400; line-height: 1; transform: rotate(-12deg); }
+    .header-note { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 11px; letter-spacing: .07em; color: #636c60; }
+    .header-note::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #83aa42; margin-right: 10px; vertical-align: 1px; box-shadow: 0 0 0 4px #dfebce; }
+    main { flex: 1; display: grid; grid-template-columns: minmax(0, 1fr) minmax(340px, .88fr); gap: clamp(34px, 5.5vw, 105px); align-items: center; padding: 62px 0 70px; }
+    .intro { padding-bottom: 13px; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 11px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; text-transform: uppercase; font-weight: 600; letter-spacing: .12em; font-size: 11px; }
+    .eyebrow .dash { width: 32px; height: 1px; background: var(--ink); }
+    h1 { font-size: clamp(62px, 7.7vw, 123px); letter-spacing: -.089em; font-weight: 740; line-height: .96; margin: 25px 0 29px; max-width: 760px; }
+    h1 span { display: block; }
+    h1 .outline { color: transparent; -webkit-text-stroke: 2px var(--ink); font-style: italic; font-weight: 650; padding-right: .07em; }
+    .intro-copy { max-width: 395px; font-size: clamp(16px, 1.5vw, 19px); line-height: 1.68; color: #5b6259; margin: 0 0 32px; }
+    .intro-copy strong { color: var(--ink); font-weight: 630; }
+    .discover { display: inline-flex; align-items: center; gap: 12px; border: 0; background: transparent; padding: 8px 0; font-size: 14px; font-weight: 740; cursor: pointer; color: var(--ink); }
+    .discover .arrow { display: grid; place-items: center; width: 35px; height: 35px; border-radius: 50%; border: 1px solid var(--ink); transition: transform .18s ease, background .18s ease; }
+    .discover:hover .arrow { transform: rotate(45deg); background: var(--lime); }
+    .game-card { width: 100%; max-width: 520px; justify-self: end; border-radius: 15px; overflow: hidden; background: var(--dark); color: var(--white); box-shadow: 0 24px 50px rgba(32, 39, 28, .14), 0 5px 13px rgba(32, 39, 28, .06); transform: rotate(1.3deg); transition: transform .25s ease; }
+    .game-card:hover, .game-card:focus-within { transform: rotate(0); }
+    .card-top { min-height: 58px; border-bottom: 1px solid #34423a; padding: 18px 23px; display: flex; align-items: center; justify-content: space-between; gap: 14px; font: 700 10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .12em; text-transform: uppercase; }
+    .dots { display: inline-flex; gap: 6px; margin-right: 9px; vertical-align: middle; }
+    .dots i { display: inline-block; width: 7px; height: 7px; border: 1px solid #79877e; border-radius: 50%; }
+    .card-top-right { color: #9ca99e; font-weight: 500; white-space: nowrap; }
+    .game-content { padding: 24px 23px 22px; }
+    .game-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 15px; padding-bottom: 21px; }
+    .game-head h2 { margin: 0; font-size: clamp(24px, 2.3vw, 31px); letter-spacing: -.05em; font-weight: 710; line-height: 1.12; }
+    .game-head p { color: #a7b1a8; margin: 7px 0 0; font-size: 12px; line-height: 1.55; }
+    .best { text-align: right; flex-shrink: 0; }
+    .best span { display: block; font: 600 9px ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .16em; color: #a5b1a7; text-transform: uppercase; margin-bottom: 5px; }
+    .best strong { font: 500 27px ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--lime); }
+    .arena { min-height: 313px; height: min(340px, 39vh); position: relative; border: 1px solid #34493d; border-radius: 8px; overflow: hidden; background-color: #101c17; background-image: linear-gradient(rgba(107,135,106,.10) 1px,transparent 1px),linear-gradient(90deg,rgba(107,135,106,.10) 1px,transparent 1px); background-size: 27px 27px; }
+    .arena::after { content: ""; pointer-events: none; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 45%, transparent 30%, rgba(8, 18, 12, .24)); }
+    .arena-state { position: absolute; z-index: 2; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 22px; text-align: center; }
+    .arena-state[hidden], .target[hidden], .effect[hidden] { display: none !important; }
+    .idle-symbol { font-size: 84px; line-height: 1; color: var(--lime); font-weight: 200; margin-bottom: 13px; transform: rotate(-18deg); }
+    .arena-state h3 { margin: 0 0 9px; font-size: 23px; letter-spacing: -.045em; font-weight: 680; }
+    .arena-state p { max-width: 255px; color: #a8b6a7; font-size: 13px; line-height: 1.55; margin: 0 0 23px; }
+    .play { background: var(--lime); color: #152117; border: 0; border-radius: 5px; padding: 14px 20px; min-height: 47px; font-weight: 780; font-size: 12px; cursor: pointer; transition: transform .15s ease, filter .15s ease; }
+    .play:hover { transform: translateY(-2px); filter: brightness(1.08); }
+    .play:active { transform: translateY(1px); }
+    .target { position: absolute; z-index: 3; left: 50%; top: 50%; width: 58px; height: 58px; transform: translate(-50%, -50%); border: 3px solid var(--lime); background: var(--lime); border-radius: 50%; cursor: crosshair; touch-action: manipulation; box-shadow: 0 0 0 9px rgba(219, 251, 131, .12), 0 0 29px rgba(219, 251, 131, .15); transition: left .12s ease-out, top .12s ease-out, width .12s, height .12s; }
+    .target::after { content: ""; width: 8px; height: 8px; display: block; margin: auto; border-radius: 50%; background: #284024; }
+    .target:hover { box-shadow: 0 0 0 13px rgba(219, 251, 131, .12), 0 0 32px rgba(219, 251, 131, .23); }
+    .target:active { filter: brightness(.9); }
+    .effect { z-index: 4; position: absolute; pointer-events: none; color: var(--lime); font: 800 18px ui-monospace, SFMono-Regular, Menlo, monospace; animation: pop .35s ease-out both; }
+    @keyframes pop { from { transform: translateY(0); opacity: 1; } to { transform: translateY(-25px); opacity: 0; } }
+    .game-stats { padding-top: 17px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    .stat-label { font: 700 10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .09em; color: #a6b3a6; text-transform: uppercase; margin-bottom: 8px; }
+    .stat strong { font: 500 23px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: -.04em; }
+    .stat:last-child { text-align: right; }
+    .progress { height: 3px; border-radius: 99px; background: #354439; margin-top: 16px; overflow: hidden; }
+    .progress-fill { height: 100%; width: 100%; background: var(--lime); transition: width .1s linear; }
+    footer { border-top: 1px solid var(--line); padding-top: 19px; font: 500 11px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: #71796e; letter-spacing: .02em; }
+    footer .wink { color: var(--ink); }
+    @media (min-width: 1100px) and (min-height: 800px) { .page { padding-top: 41px; padding-bottom: 30px; } }
+    @media (max-width: 900px) { main { grid-template-columns: 1fr; gap: 46px; padding-top: 60px; padding-bottom: 55px; } .intro { padding: 0; } h1 { font-size: clamp(62px, 11vw, 108px); } .game-card { justify-self: start; max-width: 620px; transform: rotate(.5deg); } .arena { height: 320px; } }
+    @media (max-width: 540px) { .page { padding: 21px 19px; } header { padding-bottom: 17px; } .brand { font-size: 10px; gap: 8px; } .brand-mark { width: 30px; height: 30px; font-size: 24px; } .header-note { font-size: 9px; text-align: right; line-height: 1.4; } main { padding: 47px 0 48px; gap: 39px; } .eyebrow { font-size: 9px; letter-spacing: .09em; } h1 { font-size: clamp(59px, 14.2vw, 85px); margin: 23px 0 22px; } h1 .outline { -webkit-text-stroke-width: 1.5px; } .intro-copy { max-width: 340px; margin-bottom: 20px; font-size: 15px; } .game-card { transform: none; } .card-top { padding: 16px; font-size: 9px; } .game-content { padding: 20px 16px; } .game-head { padding-bottom: 18px; } .game-head h2 { font-size: 25px; } .arena { height: 302px; min-height: 302px; } footer { align-items: flex-start; font-size: 9px; line-height: 1.6; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; } }
+  
+.game-card{max-width:560px}.game-head h2{font-size:28px}.arena{height:390px;min-height:390px;background:#9ba687}.arena canvas{display:block;width:100%;height:100%;image-rendering:pixelated}.arena-state{background:rgba(12,25,20,.88)}.idle-symbol{font-size:52px}.controls{display:flex;gap:8px;margin-top:13px}.controls button{border:1px solid #536455;background:#263b30;color:#dbfb83;border-radius:5px;padding:12px;min-height:44px;touch-action:none;font-weight:700}.controls .throw{flex:1;background:#dbfb83;color:#18221f}.help{font-size:11px;color:#acb7aa;line-height:1.6;margin:12px 0 0}.arena:after{display:none}.game-stats{grid-template-columns:1fr 1fr 1fr}.stat:nth-child(2){text-align:center}@media(max-width:540px){.arena{height:360px;min-height:360px}.game-head h2{font-size:24px}}</style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="brand" aria-label="Nothing Incorporated"><span class="brand-mark" aria-hidden="true">∅</span><span>NOTHING INC.</span></div>
+      <div class="header-note">DOMAIN ACTIVE / WEBSITE OPTIONAL</div>
+    </header>
+
+    <main>
+      <section class="intro" aria-labelledby="headline">
+        <div class="eyebrow"><span class="dash" aria-hidden="true"></span> YOU FOUND THE WEBSITE</div>
+        <h1 id="headline"><span>There's</span><span class="outline">nothing</span><span>here.</span></h1>
+        <p class="intro-copy">This domain has a perfectly good job: <strong>handling email.</strong> The website, on the other hand, has absolutely no plans.</p>
+        <button class="discover" type="button" id="discover">Although... there is one thing <span class="arrow" aria-hidden="true">↗</span></button>
+      </section>
+
+      <section class="game-card" id="game" aria-label="The Daily Nothing BMX delivery game">
+<div class="card-top"><span>THE DAILY NOTHING / MORNING EDITION</span><span class="card-top-right">EST. RIGHT NOW</span></div>
+<div class="game-content"><div class="game-head"><div><h2>The Daily Nothing.</h2><p>One BMX. A paper round. No actual news.</p></div><div class="best"><span>Best round</span><strong id="best">00</strong></div></div>
+<div class="arena" id="arena"><canvas id="street" width="400" height="390" aria-label="Scrolling street: steer your BMX and throw papers into the letterboxes on the left"></canvas>
+<div class="arena-state" id="start-state"><div class="idle-symbol" aria-hidden="true">▤ ↗</div><h3>All the news that isn't.</h3><p>Ride past the houses. Throw when you're level with a yellow letterbox. Dodge bins, cones and parked cars.</p><button class="play" id="start">START THE PAPER ROUND ↗</button></div>
+<div class="arena-state" id="end-state" hidden aria-live="polite"><div class="idle-symbol">▤</div><h3 id="end-title">Your shift is over.</h3><p id="end-copy"></p><button class="play" id="again">ANOTHER SLOW NEWS DAY ↗</button></div></div>
+<div class="controls" aria-label="Touch controls"><button id="left" aria-label="Steer left">◀</button><button id="right" aria-label="Steer right">▶</button><button id="throw" class="throw">THROW PAPER ↗</button></div>
+<p class="help">← → steer · Space throws left · P pauses<br>Yellow letterboxes: +10. Broken windows: −2. Crashes: −5.</p>
+<div class="game-stats"><div class="stat"><div class="stat-label">Score</div><strong id="score">00</strong></div><div class="stat"><div class="stat-label">Delivered</div><strong id="delivered">0</strong></div><div class="stat"><div class="stat-label">Time left</div><strong id="time">30.0s</strong></div></div>
+<div class="progress" role="progressbar" aria-label="Time remaining" aria-valuemin="0" aria-valuemax="30" aria-valuenow="30" id="progress"><div class="progress-fill" id="progress-fill"></div></div></div></section>
+    </main>
+
+    <footer><span>© NO ONE. ALL RIGHTS UNNECESSARY.</span><span class="wink">No tracking. No cookies. No point. ↗</span></footer>
+  </div>
+  <script>(() => {
+'use strict';
+const $=id=>document.getElementById(id), canvas=$('street'), c=canvas.getContext('2d');
+const W=400,H=390, riderY=292;
+let best=0;try{best=Number(localStorage.getItem('daily-nothing-best'))||0}catch(e){}
+$('best').textContent=String(best).padStart(2,'0');
+let running=false,paused=false,time=30,score=0,delivered=0,broken=0,crashes=0,x=255,travel=0,houseClock=0,obstacleClock=0,cooldown=0,invincible=0,last=0;
+let houses=[],obstacles=[],papers=[],notices=[],keys=new Set();
+const rand=(a,b)=>a+Math.random()*(b-a);
+function rect(x,y,w,h,color){c.fillStyle=color;c.fillRect(x,y,w,h)}
+function label(text,x,y,color='#18221f',size=11){c.fillStyle=color;c.font='bold '+size+'px monospace';c.fillText(text,x,y)}
+function notify(text,color='#dbfb83'){notices.push({text,color,life:1.1})}
+function ui(){ $('score').textContent=String(score).padStart(2,'0');$('delivered').textContent=delivered;$('time').textContent=time.toFixed(1)+'s';$('progress-fill').style.width=time/30*100+'%';$('progress').setAttribute('aria-valuenow',time.toFixed(1)) }
+function spawnHouse(y=-90){houses.push({y,hit:false,color:['#d8c5a1','#c3cfba','#d3b7a4'][Math.floor(Math.random()*3)]})}
+function start(){running=true;paused=false;time=30;score=delivered=broken=crashes=0;x=255;travel=0;houseClock=obstacleClock=cooldown=invincible=0;houses=[];obstacles=[];papers=[];notices=[];keys.clear();spawnHouse(100);spawnHouse(-90);$('start-state').hidden=true;$('end-state').hidden=true;canvas.focus();ui()}
+function finish(){running=false;keys.clear();if(score>best){best=score;try{localStorage.setItem('daily-nothing-best',String(best))}catch(e){}$('best').textContent=String(best).padStart(2,'0')}$('end-title').textContent=delivered?'Extra! Extra! Nothing happened.':'A remarkably quiet news day.';$('end-copy').textContent=delivered+' papers delivered. '+broken+' windows broken. '+crashes+' crashes. '+score+' points. Your contribution to journalism is under review.';$('end-state').hidden=false;$('again').focus({preventScroll:true})}
+function throwPaper(){if(!running||paused||cooldown>0)return;cooldown=.28;papers.push({x:x-8,y:riderY-8,done:false})}
+function togglePause(){if(running){paused=!paused;keys.clear();draw()}}
+function update(dt){time=Math.max(0,time-dt);travel+=dt*100;cooldown=Math.max(0,cooldown-dt);invincible=Math.max(0,invincible-dt);x=Math.max(169,Math.min(367,x+((keys.has('ArrowRight')?1:0)-(keys.has('ArrowLeft')?1:0))*205*dt));
+houseClock+=dt;obstacleClock+=dt;if(houseClock>1.9){houseClock-=1.9;spawnHouse()}if(obstacleClock>1.5){obstacleClock=0;obstacles.push({x:rand(185,348),y:-55,type:Math.floor(rand(0,3)),hit:false})}
+for(const h of houses)h.y+=100*dt;
+for(const o of obstacles){o.y+=100*dt;const w=o.type===2?24:15,h=o.type===2?39:18;if(!o.hit&&invincible<=0&&Math.abs(o.x-x)<w+10&&Math.abs(o.y-riderY)<h+18){o.hit=true;crashes++;score-=5;invincible=1.2;notify('OUCH. −5','#ffb39b')}}
+for(const p of papers){p.x-=430*dt;if(!p.done&&p.x<=122){p.done=true;const box=houses.find(h=>!h.hit&&Math.abs(h.y+67-p.y)<25);if(box){box.hit=true;score+=10;delivered++;notify('DELIVERED! +10')}else{const house=houses.find(h=>Math.abs(h.y+26-p.y)<33);if(house){broken++;score-=2;notify('THAT WAS A WINDOW. −2','#ffb39b')}else notify('YESTERDAY’S NEWS.','#f0e4c0')}}}
+houses=houses.filter(h=>h.y<H+80);obstacles=obstacles.filter(o=>o.y<H+60);papers=papers.filter(p=>!p.done);notices.forEach(n=>n.life-=dt);notices=notices.filter(n=>n.life>0);ui();if(time<=0)finish()}
+function draw(){rect(0,0,W,H,'#91a17c');rect(107,0,37,H,'#d0cbb5');rect(144,0,244,H,'#56615b');rect(388,0,12,H,'#d0cbb5');rect(151,0,3,H,'#e1ddbf');rect(380,0,3,H,'#e1ddbf');for(let y=travel%65-65;y<H;y+=65)rect(269,y,4,30,'#c6c8ac');
+for(const h of houses){rect(13,h.y,83,65,h.color);rect(8,h.y-8,93,15,'#6c6656');rect(24,h.y+15,19,22,'#627b7c');rect(64,h.y+15,19,22,'#627b7c');rect(47,h.y+39,16,26,'#605d4d');rect(57,h.y+65,55,9,'#d0cbb5');rect(119,h.y+70,4,23,'#514d3e');rect(109,h.y+59,22,15,h.hit?'#a0bf78':'#f9d77b');rect(112,h.y+64,16,3,'#514d3e');if(h.hit)label('✓',113,h.y+71);}
+for(const o of obstacles){if(o.type===0){rect(o.x-11,o.y-14,22,28,'#293e33');rect(o.x-14,o.y-19,28,6,'#1e3026');rect(o.x-8,o.y+14,5,5,'#17251d');rect(o.x+5,o.y+14,5,5,'#17251d')}else if(o.type===1){c.fillStyle='#e79853';c.beginPath();c.moveTo(o.x,o.y-18);c.lineTo(o.x-14,o.y+15);c.lineTo(o.x+14,o.y+15);c.fill();rect(o.x-7,o.y,14,5,'#f4e9c9');rect(o.x-18,o.y+15,36,5,'#353d37')}else{rect(o.x-22,o.y-39,44,78,'#9b6c57');rect(o.x-16,o.y-25,32,19,'#b2c6bd');rect(o.x-16,o.y+15,32,12,'#b2c6bd');rect(o.x-25,o.y-25,4,15,'#26332c');rect(o.x+21,o.y+14,4,15,'#26332c');rect(o.x-17,o.y-37,9,4,'#efdc9d');rect(o.x+8,o.y-37,9,4,'#efdc9d')}}
+if(!(invincible>0&&Math.floor(invincible*12)%2)){const pedal=Math.sin(travel*.15)*5;c.strokeStyle='#162921';c.lineWidth=4;c.beginPath();c.ellipse(x,riderY-19,5,13,0,0,Math.PI*2);c.ellipse(x,riderY+22,5,13,0,0,Math.PI*2);c.stroke();c.strokeStyle='#dbfb83';c.beginPath();c.moveTo(x,riderY-20);c.lineTo(x-6,riderY+8);c.lineTo(x+6,riderY+18);c.lineTo(x,riderY-5);c.stroke();rect(x-14,riderY-22,28,4,'#182b23');rect(x-10,riderY-9,20,21,'#e4a15f');rect(x-14,riderY+7,9,9+pedal,'#21382f');rect(x+5,riderY+7,9,9-pedal,'#21382f');rect(x-8,riderY-23,16,16,'#f0d3a5');rect(x-9,riderY-27,18,8,'#dbfb83');rect(x-21,riderY-1,10,15,'#eee4c9')}
+for(const p of papers){rect(p.x-7,p.y-4,14,9,'#fff4d4');rect(p.x-4,p.y-1,8,2,'#6c7567')}
+if(notices.length){const n=notices[notices.length-1];rect(151,12,230,29,'#192b24');label(n.text,160,31,n.color,11)}
+if(paused){rect(105,155,230,78,'#182b23');label('PAPER ROUND PAUSED',119,185,'#dbfb83',16);label('Press P or tap to resume',119,211,'#e5e8d5',12)}}
+function loop(stamp){const dt=Math.min((stamp-last)/1000||0,.05);last=stamp;if(running&&!paused)update(dt);draw();requestAnimationFrame(loop)}
+$('start').addEventListener('click',start);$('again').addEventListener('click',start);$('throw').addEventListener('click',throwPaper);
+for(const [id,key] of [['left','ArrowLeft'],['right','ArrowRight']]){const b=$(id);b.addEventListener('pointerdown',e=>{e.preventDefault();b.setPointerCapture(e.pointerId);keys.add(key)});for(const ev of ['pointerup','pointercancel','lostpointercapture'])b.addEventListener(ev,()=>keys.delete(key))}
+canvas.tabIndex=0;canvas.addEventListener('click',()=>{if(paused){paused=false;last=performance.now()}else throwPaper()});
+document.addEventListener('keydown',e=>{if(!running||e.ctrlKey||e.altKey||e.metaKey)return;if(['ArrowLeft','ArrowRight','Space','KeyP'].includes(e.code)){e.preventDefault();if(e.code==='KeyP'){if(!e.repeat)togglePause()}else if(e.code==='Space'){if(!e.repeat)throwPaper()}else if(!paused)keys.add(e.code)}});
+document.addEventListener('keyup',e=>keys.delete(e.code));window.addEventListener('blur',()=>{if(running&&!paused){paused=true;keys.clear()}});document.addEventListener('visibilitychange',()=>{if(document.hidden&&running){paused=true;keys.clear()}});
+$('discover').addEventListener('click',()=>{$('game').scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'center'});if(!running)$('start-state').hidden?$('again').focus({preventScroll:true}):$('start').focus({preventScroll:true});else canvas.focus({preventScroll:true})});
+ui();requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>
